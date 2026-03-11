@@ -11,3 +11,29 @@
 # 갈 수 있다. 높이는 10억보다 작거나 같은 양의 정수 또는 0이다.
 # 📌출력
 # 적어도 M만큼의 떡을 집에 가져가기 위해 절단기에 설정할 수 있는 높이의 최댓값을 출력한다.
+
+
+n, m = map(int, input().split())
+H = list(map(int, input().split()))
+
+gnd= 0
+top = max(H)
+
+H_max = 0
+
+while gnd <= top:
+    mid = (gnd + top) // 2 #이진탐색
+    total = 0
+    
+    for h in H:
+        if h > mid:
+            total += h - mid
+            
+            
+    if total < m:
+        top = mid - 1
+    else:
+        H_max = mid
+        gnd = mid + 1
+
+print(H_max)

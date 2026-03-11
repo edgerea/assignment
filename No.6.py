@@ -17,3 +17,41 @@
 # 📌출력
 # 첫 번째 줄에 방문 판매원이 X번 회사에 도달한 뒤, K번 회사로 가는 최소 이동 시간을 출력한다.
 # 만약 X번 회사와 K번 회사 사이에 이동할 수 없다면 -1을 출력한다.
+
+
+
+# 무한을 의미하는 값으로 10억을 설정
+INF = int(1e9)
+
+n, m = map(int, input().split())
+
+# 그래프 생성->모든 값을 무한으로 초기화
+graph = [[INF] * (n + 1) for _ in range(n + 1)]
+
+# 자기 자신에서 자기 자신으로 가는 비용은 0으로 초기화
+for a in range(1, n + 1):
+    graph[a][a] = 0
+
+# 각 간선에 대한 정보를 입력받아 초기화 (도로는 양방향, 비용은 1)
+for i in range(m):
+    a, b = map(int, input().split())
+    graph[a][b] = graph[b][a] = 1
+
+x, k = map(int, input().split())
+
+
+# 플로이드-워셜 알고리즘
+for k_node in range(1, n + 1):
+    for a in range(1, n + 1):
+        for b in range(1, n + 1):
+            graph[a][b] = min(graph[a][b], graph[a][k_node] + graph[k_node][b])
+
+
+# 1번 -> K번 -> X번으로 가는 최소 이동 시간
+distance = graph[1][k] + graph[k][x]
+
+# 도달할 수 없는 경우 -1 출력, 가능하면 거리 출력
+if distance >= INF:
+    print("-1")
+else:
+    print(distance)
